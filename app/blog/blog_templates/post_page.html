@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2 d-flex justify-content-center">
+    <div class="instagram-rip-off">
+        <div class="card mt-3" style="width: 35rem;">
+            <h3 class="card-header d-flex justify-content-center">{{p.title}}</h3>
+            <img src="{{ p.image }}" class="card-img-top" alt="...">
+            <div class="card-body">
+            
+            <p class="card-text d-flex justify-content-center">{{ p.content }}</p>
+            </div>
+        </div>
+        <div class="border border-light d-flex p-2 justify-content-between">
+            <div class='form-group mt-2 mb-2'>
+                <form action='' method='POST'>
+                    {{ comment.hidden_tag() }}
+                        <fieldset>
+                            {{ comment.comment(class='form_control', placeholder='Add Comment...') }}
+                        </fieldset>
+                        <br>
+                        <fieldset>
+                            {{ comment.submit(class='btn btn-dark') }}
+                        </fieldset>
+                </form>
+            </div>
+            
+            {% if p.like==True %}
+            <div class="d-flex align-items-baseline">
+                <p><small>You Liked This Post</small></p>
+                <form action='{{ url_for("blog.postUnlike", id=p.id) }}' method='POST'>
+                    <button type='submit' class="btn btn-light">Un-Like?</button>
+                </form>
+            </div>
+            
+            {% elif p.dislike==True %}
+            <div class="d-flex align-items-baseline">
+                <p><small>You Disiked This Post</small></p>
+                <form action='{{ url_for("blog.postUndislike", id=p.id) }}' method='POST'>
+                    <button type='submit' class="btn btn-light">Undo Dislike?</button>
+                </form>
+            </div>
+
+            {%else%}            
+            <div class="form-check d-flex">
+                <form action='{{ url_for("blog.postLikeIt", id=p.id) }}' method='POST'>
+                    <button type='submit' class="btn btn-light"><image src="{{url_for('static',filename='like.jpeg')}}"width='25'></button>
+                </form>
+                <form action='{{ url_for("blog.postDislikeIt", id=p.id) }}' method='POST'>
+                    <button type='submit' class="btn btn-light"><image src="{{url_for('static',filename='dislike.jpeg')}}"width='25'></button>
+                </form>
+            </div>
+
+            {% endif %}
+        </div>
+        {% for comment in comments %}
+        {% if comment.postId == id %}
+        <div class="card mt-2 mb-3" style="width: 25rem;">
+            <div class="card-header d-flex justify-content-between">
+                <div class="">
+                    <h5>
+                        {% for user in users %}
+                        {% if user.id == comment.commentposter %}
+                        {{user.username}}
+                        {% endif %}
+                        {% endfor %}
+                    </h5>
+                </div>
+                {% if comment.like==True %}
+                <div class="d-flex align-items-baseline">
+                    <p><small>You Liked This Comment</small></p>
+                    <form action='{{ url_for("blog.commentUnlike", id=comment.id) }}' method='POST'>
+                        <button type='submit' class="btn btn-light">Un-Like?</button>
+                    </form>
+                </div>
+                
+                {% elif comment.dislike==True %}
+                <div class="d-flex align-items-baseline">
+                    <p><small>You Disiked This Comment</small></p>
+                    <form action='{{ url_for("blog.commentUndislike", id=comment.id) }}' method='POST'>
+                        <button type='submit' class="btn btn-light">Undo Dislike?</button>
+                    </form>
+                </div>
+    
+                {%else%}            
+                <div class="form-check d-flex">
+                    <form action='{{ url_for("blog.commentLikeIt", id=comment.id) }}' method='POST'>
+                        <button type='submit' class="btn btn-light"><image src="{{url_for('static',filename='like.jpeg')}}"width='15'></button>
+                    </form>
+                    <form action='{{ url_for("blog.commentDislikeIt", id=comment.id) }}' method='POST'>
+                        <button type='submit' class="btn btn-light"><image src="{{url_for('static',filename='dislike.jpeg')}}"width='15'></button>
+                    </form>
+                </div>
+    
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <p class="card-text d-flex justify-content-center fs-5">{{ comment.comment }}</p>
+                <div class="d-flex justify-content-between">
+                <p><small> {{comment.date_added}} </small></p>
+                {% if comment.commentposter == current %}
+                <form action='{{ url_for("blog.deleteComment", id=comment.id) }}' method='POST'>
+                    <button type='submit' class="btn btn-link">delete comment</button>
+                </form>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
