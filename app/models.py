@@ -1,6 +1,6 @@
 from enum import unique
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import date, datetime
 from werkzeug.security import generate_password_hash
 from flask_login import UserMixin
 
@@ -26,6 +26,8 @@ class Post(db.Model):
     title = db.Column(db.String(150), nullable=False, unique=True)
     image = db.Column(db.String(300))
     content = db.Column(db.String(300))
+    like=db.Column(db.Boolean,nullable=True,default=False)
+    dislike=db.Column(db.Boolean,nullable=True,default=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
@@ -35,6 +37,20 @@ class Post(db.Model):
         self.content = content
         self.user_id = user_id
 
+class postComments(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    comment=db.Column(db.String(300), nullable=False)
+    commentposter=db.Column(db.Integer,db.ForeignKey('user.id'), nullable=False)
+    postId=db.Column(db.Integer,db.ForeignKey('post.id'), nullable=False)
+    like=db.Column(db.Boolean,nullable=True,default=False)
+    dislike=db.Column(db.Boolean,nullable=True,default=False)
+    date_added=db.Column(db.Date,nullable=False,default=date.today)
+    
+
+    def __init__(self, comment, commentposter, postId):
+        self.comment = comment
+        self.commentposter = commentposter
+        self.postId = postId
 
 
 
