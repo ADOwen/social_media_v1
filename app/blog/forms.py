@@ -10,8 +10,18 @@ class CreatePostForm(FlaskForm):
     content = StringField('Content', validators=[DataRequired()])
     submit = SubmitField()
 
+class CreateTweetForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    tweet = StringField( validators=[DataRequired()])
+    submit = SubmitField()
+
+
 class postComment(FlaskForm):
     comment=StringField(validators=[DataRequired()])
+    submit=SubmitField()
+
+class postTweet(FlaskForm):
+    tweet= StringField( validators=[DataRequired()])
     submit=SubmitField()
 
 class postLike(FlaskForm):
@@ -19,5 +29,6 @@ class postLike(FlaskForm):
     
 class postDislike(FlaskForm):
     dislike=SubmitField("Dislike")
+
 
     

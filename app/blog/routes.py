@@ -4,7 +4,7 @@ from sqlalchemy import asc, desc
 
 
 
-from .forms import CreatePostForm, postComment
+from .forms import CreatePostForm, CreateTweetForm, postComment
 from app.models import Post, postComments, User
 
 blog = Blueprint('blog',__name__,template_folder='blog_templates')
@@ -37,6 +37,27 @@ def createPost():
                 return redirect(url_for('blog.blogHome'))
 
     return render_template('createpost.html', form=form)
+
+@blog.route('/tweet/create', methods=["GET","POST"])
+@login_required
+def createTweet():
+    form = CreateTweetForm()
+    if request.method == "POST":
+            if form.validate():
+                print('Form went through')
+                title = form.title.data
+                tweet = form.tweet.data
+
+                # create instance of post
+                post = Post(title,tweet)
+                # add instance of database 
+                db.session.add(post)
+                # commit to database like github
+                db.session.commit()
+            
+                return redirect(url_for('blog.blogHome'))
+
+    return render_template('createtweet.html', form=form)
 
 @blog.route('/posts/<int:id>', methods=['GET','POST'])
 @login_required

@@ -52,6 +52,18 @@ class postComments(db.Model):
         self.commentposter = commentposter
         self.postId = postId
 
+class postTweets(db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    tweet=db.Column(db.String(400), nullable=False)
+    tweetposter=db.Column(db.Integer,db.ForeignKey('user.id'), nullable=False)
+    postId=db.Column(db.Integer,db.ForeignKey('post.id'), nullable=False)
+    date_added=db.Column(db.Date,nullable=False,default=date.today)
+
+    def __init__(self, tweet, tweetposter, postId):
+        self.tweet = tweet
+        self.tweetposter = tweetposter
+        self.postId = postId
+
 
 
 

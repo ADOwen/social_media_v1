@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>This is the create a Tweet page</h1>
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <fieldset>
+            {{ form.content.label }}
+            {{ form.content(class='form-control', placeholder= 'Tweet here')}}
+        </fieldset>
+        {{ form.submit(class='btn btn-primary')}}
+    </div>
+</form>
+{% endblock content %}
