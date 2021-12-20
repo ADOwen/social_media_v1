@@ -26,7 +26,7 @@ def logMeIn():
 
         if user is None or not check_password_hash(user.password, password):
             print("wrong password")
-            return redirect(url_for('login.html'))
+            return redirect(url_for('auth.logMeIn'))
 
         # log me in
         login_user(user, remember=remember_me)

@@ -4,7 +4,16 @@
 <div class="container mt-2 d-flex justify-content-center">
     <div class="instagram-rip-off">
         <div class="card mt-3" style="width: 35rem;">
-            <h3 class="card-header d-flex justify-content-center">{{p.title}}</h3>
+            <div class="card-header d-flex justify-content-between">
+                <h3>{{p.title}}</h3>
+                <h5>
+                    {% for user in users %}
+                    {% if user.id == p.user_id %}
+                    {{user.username}}
+                    {% endif %}
+                    {% endfor %}
+                </h5>
+            </div>
             <img src="{{ p.image }}" class="card-img-top" alt="...">
             <div class="card-body">
             

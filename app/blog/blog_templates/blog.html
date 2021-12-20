@@ -12,6 +12,13 @@
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.content }}</p>
           </div>
+          <h6>
+            {% for user in users %}
+            {% if user.id == post.user_id %}
+            {{user.username}}
+            {% endif %}
+            {% endfor %}
+          </h6>
           {% if post.like==True %}
           <div class="d-flex align-items-baseline">
               <p><small>You Liked This Post</small></p>

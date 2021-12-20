@@ -13,8 +13,9 @@ from app.models import db
 
 @blog.route('/blog/main')
 def blogHome():
+    users=User.query.all()
     posts = Post.query.order_by(desc(Post.date_created)).all()
-    return render_template('blog.html' ,posts = posts,current=current_user.id)
+    return render_template('blog.html' ,users=users,posts = posts,current=current_user.id)
 
 @blog.route('/posts/create', methods=["GET","POST"])
 @login_required
@@ -44,7 +45,7 @@ def singlePostPage(id):
     post = Post.query.filter_by(id=id).first()
     comment = postComment()
     comments=postComments.query.order_by(desc(postComments.date_added)).all()
-    users=db.session.query(User).join(postComments)
+    users=User.query.all()
     if request.method == 'POST':
         if comment.validate_on_submit:
             com = comment.comment.data
