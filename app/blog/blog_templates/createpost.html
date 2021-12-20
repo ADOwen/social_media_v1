@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>This is the create post page</h1>
+<h1 align="center">Uh... Share your cool pics!</h1>
 <form action="" method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
         <fieldset>
             {{ form.title.label }}
-            {{ form.title(class='form-control', placeholder= 'Title')}}
+            {{ form.title(class='form-control', placeholder= 'Name')}}
         </fieldset>
         <fieldset>
             {{ form.image.label }}

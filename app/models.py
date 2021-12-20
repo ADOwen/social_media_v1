@@ -23,9 +23,9 @@ class User(db.Model, UserMixin):
 
 class Post(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    title = db.Column(db.String(150), nullable=False, unique=True)
+    title = db.Column(db.String(150))
     image = db.Column(db.String(300))
-    content = db.Column(db.String(300))
+    content = db.Column(db.String(300), nullable=False)
     like=db.Column(db.Boolean,nullable=True,default=False)
     dislike=db.Column(db.Boolean,nullable=True,default=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

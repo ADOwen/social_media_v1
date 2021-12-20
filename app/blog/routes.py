@@ -11,7 +11,9 @@ blog = Blueprint('blog',__name__,template_folder='blog_templates')
 
 from app.models import db
 
+
 @blog.route('/blog/main')
+@login_required
 def blogHome():
     posts = Post.query.order_by(desc(Post.date_created)).all()
     return render_template('blog.html' ,posts = posts,current=current_user.id)
@@ -19,6 +21,7 @@ def blogHome():
 @blog.route('/posts/create', methods=["GET","POST"])
 @login_required
 def createPost():
+    user= current_user
     form = CreatePostForm()
     if request.method == "POST":
             if form.validate():
@@ -36,7 +39,7 @@ def createPost():
             
                 return redirect(url_for('blog.blogHome'))
 
-    return render_template('createpost.html', form=form)
+    return render_template('createpost.html', form=form, user=user)
 
 @blog.route('/posts/<int:id>', methods=['GET','POST'])
 @login_required
